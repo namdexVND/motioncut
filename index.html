@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>MotionCut — Sắp ra mắt</title>
+<meta name="description" content="MotionCut — trình dựng video & chuyển động ngay trên điện thoại. Đếm ngược tới ngày ra mắt.">
+<meta name="theme-color" content="#07090d">
+<meta property="og:title" content="MotionCut — Sắp ra mắt">
+<meta property="og:description" content="Dựng video mượt hơn, xuất bản nhanh hơn. Đếm ngược tới ngày ra mắt MotionCut.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' fill='none' stroke='%232ee6a6' stroke-width='5' stroke-linecap='round'%3E%3Crect width='64' height='64' rx='16' fill='%230d1117' stroke='none'/%3E%3Cpath d='M14 36a18 18 0 0 1 29-14'/%3E%3Cpath d='M50 28a18 18 0 0 1-29 14'/%3E%3Ccircle cx='32' cy='32' r='3.5' fill='%232ee6a6' stroke='none'/%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#07090d; --ink:#f4f7fb; --mute:#8b94a5; --acc:#2ee6a6; --acc2:#7c6bff; --line:rgba(255,255,255,.09);
+  --glass:rgba(255,255,255,.045);
+  --font:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);overflow-x:hidden;min-height:100dvh;display:flex;flex-direction:column}
+/* nền */
+#fx{position:fixed;inset:0;width:100%;height:100%;z-index:0}
+.glow{position:fixed;z-index:0;border-radius:50%;filter:blur(90px);opacity:.55;pointer-events:none}
+.glow.a{width:46vmax;height:46vmax;left:-14vmax;top:-18vmax;background:radial-gradient(circle,rgba(46,230,166,.55),transparent 65%);animation:drift 16s ease-in-out infinite alternate}
+.glow.b{width:42vmax;height:42vmax;right:-14vmax;bottom:-16vmax;background:radial-gradient(circle,rgba(124,107,255,.5),transparent 65%);animation:drift 19s ease-in-out infinite alternate-reverse}
+@keyframes drift{to{transform:translate(6vmax,4vmax) scale(1.1)}}
+.grid{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:56px 56px;mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 20%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 20%,transparent 75%)}
+
+main{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:max(28px,env(safe-area-inset-top)) 20px max(28px,env(safe-area-inset-bottom))}
+
+/* logo */
+.logoWrap{position:relative;width:clamp(96px,22vw,132px);aspect-ratio:1;display:grid;place-items:center;margin-bottom:22px;animation:rise .9s cubic-bezier(.2,.8,.2,1) both}
+.logoWrap::before{content:"";position:absolute;inset:-14%;border-radius:50%;background:conic-gradient(from 0deg,var(--acc),var(--acc2),var(--acc));filter:blur(22px);opacity:.55;animation:spin 8s linear infinite}
+.logoWrap::after{content:"";position:absolute;inset:0;border-radius:30%;background:#0d1117;border:1px solid rgba(255,255,255,.12);box-shadow:0 18px 50px rgba(0,0,0,.55)}
+.logoWrap img,.logoWrap svg{position:relative;z-index:1;width:72%;height:72%;object-fit:contain}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.badge{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:99px;background:var(--glass);border:1px solid var(--line);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--acc);backdrop-filter:blur(8px);animation:rise .9s .08s cubic-bezier(.2,.8,.2,1) both}
+.badge i{width:7px;height:7px;border-radius:50%;background:var(--acc);box-shadow:0 0 0 0 rgba(46,230,166,.7);animation:ping 1.6s infinite}
+@keyframes ping{70%{box-shadow:0 0 0 9px rgba(46,230,166,0)}100%{box-shadow:0 0 0 0 rgba(46,230,166,0)}}
+
+h1{font-size:clamp(40px,9vw,84px);line-height:1.02;font-weight:800;letter-spacing:-.04em;margin:18px 0 12px;animation:rise .9s .16s cubic-bezier(.2,.8,.2,1) both}
+h1 span{background:linear-gradient(100deg,var(--acc) 10%,#9be9ff 50%,var(--acc2) 95%);-webkit-background-clip:text;background-clip:text;color:transparent;background-size:200% 100%;animation:sheen 6s linear infinite}
+@keyframes sheen{to{background-position:-200% 0}}
+.sub{max-width:560px;color:var(--mute);font-size:clamp(15px,2.4vw,18px);line-height:1.6;animation:rise .9s .24s cubic-bezier(.2,.8,.2,1) both}
+
+/* đồng hồ */
+.clock{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(8px,2vw,18px);width:min(720px,100%);margin:34px 0 22px;animation:rise .9s .32s cubic-bezier(.2,.8,.2,1) both}
+.cell{position:relative;padding:clamp(14px,3vw,26px) 6px clamp(12px,2.4vw,20px);border-radius:22px;background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.025));border:1px solid var(--line);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 20px 50px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.08);overflow:hidden}
+.cell::before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(0,0,0,.55);box-shadow:0 1px 0 rgba(255,255,255,.05)}
+.cell::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 60% at 50% 0,rgba(46,230,166,.12),transparent 60%);pointer-events:none}
+.num{display:block;font-size:clamp(36px,9.5vw,84px);font-weight:800;letter-spacing:-.04em;font-variant-numeric:tabular-nums;line-height:1;position:relative}
+.num.tick{animation:flip .5s cubic-bezier(.3,.9,.3,1)}
+@keyframes flip{0%{transform:translateY(-34%) scale(.92);opacity:.2;filter:blur(3px)}100%{transform:none;opacity:1;filter:none}}
+.lab{display:block;margin-top:10px;font-size:clamp(10px,2.2vw,13px);font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--mute)}
+
+/* tiến trình */
+.prog{width:min(720px,100%);animation:rise .9s .4s cubic-bezier(.2,.8,.2,1) both}
+.bar{height:6px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden}
+.bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--acc),#9be9ff,var(--acc2));box-shadow:0 0 18px rgba(46,230,166,.6);transition:width 1.2s cubic-bezier(.2,.8,.2,1)}
+.meta{display:flex;justify-content:space-between;margin-top:10px;font-size:12.5px;color:var(--mute);font-weight:600}
+.meta b{color:var(--ink)}
+
+/* tính năng */
+.chips{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:30px;max-width:720px;animation:rise .9s .48s cubic-bezier(.2,.8,.2,1) both}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:10px 15px;border-radius:99px;background:var(--glass);border:1px solid var(--line);font-size:13.5px;font-weight:600;color:#dbe2ee;backdrop-filter:blur(8px)}
+.chip svg{width:16px;height:16px;color:var(--acc);flex:none}
+
+/* nút */
+.actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:30px;animation:rise .9s .56s cubic-bezier(.2,.8,.2,1) both}
+.btn{appearance:none;border:0;cursor:pointer;font:700 15px var(--font);padding:15px 24px;border-radius:16px;display:inline-flex;align-items:center;gap:9px;text-decoration:none;transition:transform .15s,box-shadow .2s}
+.btn:active{transform:scale(.97)}
+.btn.pri{background:linear-gradient(135deg,var(--acc),#19c98c);color:#04231a;box-shadow:0 14px 34px rgba(46,230,166,.35)}
+.btn.pri:hover{box-shadow:0 18px 44px rgba(46,230,166,.5)}
+.btn.ghost{background:var(--glass);color:var(--ink);border:1px solid var(--line);backdrop-filter:blur(8px)}
+.btn svg{width:18px;height:18px}
+
+
+/* liên kết cộng đồng */
+.social{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:26px;animation:rise .9s .64s cubic-bezier(.2,.8,.2,1) both}
+.soc{display:inline-flex;align-items:center;gap:10px;padding:11px 18px 11px 12px;border-radius:99px;background:var(--glass);border:1px solid var(--line);color:var(--ink);text-decoration:none;font-weight:700;font-size:14px;backdrop-filter:blur(8px);transition:transform .15s,border-color .2s,background .2s}
+.soc:hover{transform:translateY(-2px);background:rgba(255,255,255,.08)}
+.soc i{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;color:#fff;flex:none}
+.soc i svg{width:17px;height:17px;fill:currentColor}
+.soc.dc i{background:#5865f2}.soc.dc:hover{border-color:#5865f2}
+.soc.yt i{background:#ff0033}.soc.yt:hover{border-color:#ff0033}
+.soc.tt i{background:#111;border:1px solid #333}.soc.tt:hover{border-color:#25f4ee}
+.soc small{display:block;font-size:11px;color:var(--mute);font-weight:600;margin-top:1px}
+.soc span{line-height:1.15;text-align:left}
+footer{position:relative;z-index:2;text-align:center;color:#5f6879;font-size:12.5px;padding:0 16px max(20px,env(safe-area-inset-bottom))}
+
+/* đã ra mắt */
+body.live .clock,body.live .prog{display:none}
+.liveBox{display:none;margin:34px 0 8px;font-size:clamp(22px,5vw,34px);font-weight:800}
+body.live .liveBox{display:block;animation:rise .8s both}
+body.live .badge{color:#ffd166}
+body.live .badge i{background:#ffd166}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);background:#151a22;border:1px solid var(--line);color:var(--ink);padding:11px 18px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;pointer-events:none;transition:.3s;z-index:9}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (max-width:420px){.cell{border-radius:16px}.chip{padding:8px 12px;font-size:12.5px}}
+</style>
+</head>
+<body>
+<canvas id="fx" aria-hidden="true"></canvas>
+<div class="glow a"></div><div class="glow b"></div><div class="grid"></div>
+
+<main>
+  <div class="logoWrap" id="logoWrap">
+    <svg id="logo" viewBox="0 0 64 64" fill="none" stroke="url(#lg)" stroke-width="5" stroke-linecap="round" role="img" aria-label="MotionCut"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2ee6a6"/><stop offset="1" stop-color="#7c6bff"/></linearGradient></defs><path d="M12 36a20 20 0 0 1 32-16"/><path d="M52 28a20 20 0 0 1-32 16"/><circle cx="32" cy="32" r="4" fill="#2ee6a6" stroke="none"/></svg>
+  </div>
+
+  <div class="badge"><i></i><span id="badgeTxt">Sắp ra mắt</span></div>
+  <h1>Motion<span>Cut</span></h1>
+  <p class="sub">Dựng video &amp; chuyển động chuyên nghiệp ngay trên điện thoại. Keyframe, 3D, hiệu ứng và xuất video mượt hơn, nhanh hơn.</p>
+
+  <div class="clock" id="clock" role="timer" aria-live="off" aria-label="Đếm ngược tới ngày ra mắt">
+    <div class="cell"><span class="num" id="d">00</span><span class="lab">Ngày</span></div>
+    <div class="cell"><span class="num" id="h">00</span><span class="lab">Giờ</span></div>
+    <div class="cell"><span class="num" id="m">00</span><span class="lab">Phút</span></div>
+    <div class="cell"><span class="num" id="s">00</span><span class="lab">Giây</span></div>
+  </div>
+  <div class="liveBox">🎉 MotionCut đã chính thức ra mắt!</div>
+
+  <div class="prog">
+    <div class="bar"><i id="barFill"></i></div>
+    <div class="meta"><span>Tiến độ chuẩn bị <b id="pct">0%</b></span><span id="dateTxt"></span></div>
+  </div>
+
+  <div class="chips">
+    <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l3 6 6 .9-4.4 4.3 1 6.2L12 17.5 6.4 20.4l1-6.2L3 9.9 9 9z"/></svg>Keyframe &amp; easing</span>
+    <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l9 5v10l-9 5-9-5V7z"/><path d="M12 22V12M3 7l9 5 9-5"/></svg>Không gian 3D</span>
+    <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg>Hiệu ứng &amp; mặt nạ</span>
+    <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3m0 0L7.5 7.5M12 3l4.5 4.5M5 13v6h14v-6"/></svg>Xuất 60 FPS</span>
+    <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.07 0l2-2a5 5 0 0 0-7.07-7.07l-1 1"/><path d="M14 11a5 5 0 0 0-7.07 0l-2 2a5 5 0 0 0 7.07 7.07l1-1"/></svg>Nhập từ Alight Motion</span>
+  </div>
+
+  <div class="actions">
+    <a class="btn pri" id="openBtn" href="#" hidden>Mở MotionCut</a>
+    <button class="btn pri" id="remindBtn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>Thêm vào lịch</button>
+    <button class="btn ghost" id="shareBtn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>Chia sẻ</button>
+  </div>
+
+  <div class="social">
+    <a class="soc dc" href="https://discord.gg/JdbGwdRDJK" target="_blank" rel="noopener"><i><svg viewBox="0 0 24 24"><path d="M20.3 4.4A19.8 19.8 0 0 0 15.4 3l-.2.5a18 18 0 0 0-4.4 0L10.6 3a19.8 19.8 0 0 0-4.9 1.4C2.6 9 1.8 13.5 2.2 18a20 20 0 0 0 6 3l.7-1.1a13 13 0 0 1-2-.9l.5-.4a14.2 14.2 0 0 0 12.2 0l.5.4c-.6.4-1.3.7-2 .9l.7 1.1a20 20 0 0 0 6-3c.5-5.200-.8-9.700-3.500-13.600zM8.700 15.300c-1.100 0-2-1-2-2.200s.9-2.200 2-2.200 2 1 2 2.200-.9 2.200-2 2.200zm6.600 0c-1.100 0-2-1-2-2.200s.9-2.200 2-2.200 2 1 2 2.200-.9 2.200-2 2.200z"/></svg></i><span>Máy chủ Discord<small>Tham gia cộng đồng</small></span></a>
+    <a class="soc yt" href="https://youtube.com/@gangocvietsub" target="_blank" rel="noopener"><i><svg viewBox="0 0 24 24"><path d="M23 7.200a3 3 0 0 0-2.100-2.100C19 4.600 12 4.600 12 4.600s-7 0-8.900.5A3 3 0 0 0 1 7.200C.5 9.100.5 12 .5 12s0 2.900.5 4.800a3 3 0 0 0 2.100 2.100c1.900.5 8.900.5 8.900.5s7 0 8.900-.5a3 3 0 0 0 2.100-2.100c.5-1.900.5-4.800.5-4.800s0-2.900-.5-4.800zM9.800 15.400V8.600l5.900 3.400z"/></svg></i><span>YouTube<small>@gangocvietsub</small></span></a>
+    <a class="soc tt" href="https://www.tiktok.com/@gangocvietsub" target="_blank" rel="noopener"><i><svg viewBox="0 0 24 24"><path d="M16.600 2h-3.200v13.400a2.800 2.800 0 1 1-2-2.700V9.400a6 6 0 1 0 5.200 5.900V8.800a7.500 7.500 0 0 0 4.400 1.400V7a4.400 4.400 0 0 1-4.400-5z"/></svg></i><span>TikTok<small>@gangocvietsub</small></span></a>
+  </div>
+</main>
+
+<footer>© <span id="yr"></span> MotionCut · Làm tại Việt Nam</footer>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ====== CẤU HÌNH — sửa ở đây ====== */
+var CONFIG={
+  launch:'2026-11-23T23:59:59+07:00',   // hết ngày mai 23/11/2026 (có thể đổi nhanh bằng ?t=2026-12-31T20:00:00+07:00)
+  start :'2026-11-15T00:00:00+07:00',   // mốc bắt đầu để tính thanh tiến độ
+  appUrl:'#'                            // link mở MotionCut khi đã ra mắt
+};
+/* ================================== */
+(function(){
+  var q=new URLSearchParams(location.search);
+  var launch=new Date(q.get('t')||CONFIG.launch), start=new Date(CONFIG.start);
+  if(isNaN(launch)) launch=new Date(CONFIG.launch);
+  var $=function(id){return document.getElementById(id)};
+  var pad=function(n){return String(n).padStart(2,'0')};
+  $('yr').textContent=new Date().getFullYear();
+  $('dateTxt').textContent='Ra mắt '+launch.toLocaleString('vi-VN',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  $('openBtn').href=CONFIG.appUrl;
+
+  var last={};
+  function set(id,v){ var el=$(id); if(last[id]!==v){ el.textContent=v; last[id]=v; el.classList.remove('tick'); void el.offsetWidth; el.classList.add('tick'); } }
+  function tick(){
+    var now=Date.now(), diff=launch-now;
+    if(diff<=0){ document.body.classList.add('live'); $('badgeTxt').textContent='Đã ra mắt'; $('openBtn').hidden=false; $('remindBtn').hidden=true; $('pct').textContent='100%'; $('barFill').style.width='100%'; return false }
+    var s=Math.floor(diff/1000), d=Math.floor(s/86400); s-=d*86400; var h=Math.floor(s/3600); s-=h*3600; var m=Math.floor(s/60); s-=m*60;
+    set('d',pad(d)); set('h',pad(h)); set('m',pad(m)); set('s',pad(s));
+    var p=Math.max(0,Math.min(1,(now-start)/(launch-start))); $('pct').textContent=Math.round(p*100)+'%'; $('barFill').style.width=(p*100)+'%';
+    return true;
+  }
+  tick(); var iv=setInterval(function(){ if(!tick()) clearInterval(iv) },1000);
+
+  /* toast */
+  var tt; function toast(m){ var t=$('toast'); t.textContent=m; t.classList.add('show'); clearTimeout(tt); tt=setTimeout(function(){t.classList.remove('show')},2200) }
+
+  /* thêm vào lịch (.ics) */
+  $('remindBtn').onclick=function(){
+    var f=function(d){return d.toISOString().replace(/[-:]/g,'').replace(/\.\d+/,'')};
+    var end=new Date(launch.getTime()+3600000);
+    var ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//MotionCut//Launch//VI','BEGIN:VEVENT','UID:motioncut-launch@motioncut','DTSTAMP:'+f(new Date()),'DTSTART:'+f(launch),'DTEND:'+f(end),'SUMMARY:MotionCut ra mắt','DESCRIPTION:Ngày ra mắt MotionCut — dựng video mượt hơn, xuất bản nhanh hơn.','BEGIN:VALARM','TRIGGER:-PT15M','ACTION:DISPLAY','DESCRIPTION:MotionCut sắp ra mắt','END:VALARM','END:VEVENT','END:VCALENDAR'].join('\r\n');
+    var a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([ics],{type:'text/calendar'})); a.download='motioncut-ra-mat.ics'; document.body.appendChild(a); a.click(); a.remove(); toast('Đã tạo lịch nhắc');
+  };
+  /* chia sẻ */
+  $('shareBtn').onclick=function(){
+    var data={title:'MotionCut — Sắp ra mắt',text:'Đếm ngược tới ngày ra mắt MotionCut!',url:location.href.split('?')[0]};
+    if(navigator.share){ navigator.share(data).catch(function(){}) }
+    else if(navigator.clipboard){ navigator.clipboard.writeText(data.url).then(function(){toast('Đã sao chép liên kết')},function(){toast(data.url)}) }
+    else toast(data.url);
+  };
+
+  /* hạt chuyển động nền */
+  var cv=$('fx'), cx=cv.getContext('2d'), W,H,DPR=Math.min(2,window.devicePixelRatio||1), pts=[];
+  function size(){ W=cv.width=innerWidth*DPR; H=cv.height=innerHeight*DPR; cv.style.width=innerWidth+'px'; cv.style.height=innerHeight+'px';
+    var n=Math.round(Math.min(90,innerWidth*innerHeight/16000)); pts=[]; for(var i=0;i<n;i++) pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.25*DPR,vy:(Math.random()-.5)*.25*DPR,r:(Math.random()*1.4+.4)*DPR,c:Math.random()<.5?'46,230,166':'124,107,255'}) }
+  size(); addEventListener('resize',size);
+  var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  function frame(){
+    cx.clearRect(0,0,W,H);
+    for(var i=0;i<pts.length;i++){ var p=pts[i]; p.x+=p.vx; p.y+=p.vy; if(p.x<0)p.x=W; if(p.x>W)p.x=0; if(p.y<0)p.y=H; if(p.y>H)p.y=0;
+      cx.beginPath(); cx.fillStyle='rgba('+p.c+',.75)'; cx.arc(p.x,p.y,p.r,0,6.283); cx.fill();
+      for(var j=i+1;j<pts.length;j++){ var o=pts[j], dx=p.x-o.x, dy=p.y-o.y, d=dx*dx+dy*dy, L=(130*DPR)*(130*DPR);
+        if(d<L){ cx.strokeStyle='rgba(46,230,166,'+(.16*(1-d/L))+')'; cx.lineWidth=DPR*.7; cx.beginPath(); cx.moveTo(p.x,p.y); cx.lineTo(o.x,o.y); cx.stroke() } } }
+    if(!reduce) requestAnimationFrame(frame);
+  }
+  frame();
+})();
+</script>
+</body>
+</html>
