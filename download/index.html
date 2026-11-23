@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Tải MotionCut — Android, iOS, Windows, Linux</title>
+<meta name="description" content="Dùng MotionCut ngay trên web hoặc tải về cho Android, iOS, Windows, Linux.">
+<meta name="theme-color" content="#07090d">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' fill='none' stroke='%232ee6a6' stroke-width='5' stroke-linecap='round'%3E%3Crect width='64' height='64' rx='16' fill='%230d1117' stroke='none'/%3E%3Cpath d='M14 36a18 18 0 0 1 29-14'/%3E%3Cpath d='M50 28a18 18 0 0 1-29 14'/%3E%3Ccircle cx='32' cy='32' r='3.5' fill='%232ee6a6' stroke='none'/%3E%3C/svg%3E">
+<style>
+:root{--bg:#06080c;--ink:#f4f7fb;--mute:#8b94a5;--acc:#2ee6a6;--acc2:#7c6bff;--line:rgba(255,255,255,.09);--glass:rgba(255,255,255,.045);--font:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);min-height:100dvh;overflow-x:hidden;line-height:1.5}
+.glow{position:fixed;z-index:0;border-radius:50%;filter:blur(90px);opacity:.5;pointer-events:none;animation:float 14s ease-in-out infinite alternate}
+.glow.a{width:46vmax;height:46vmax;left:-14vmax;top:-18vmax;background:radial-gradient(circle,rgba(46,230,166,.5),transparent 65%)}
+.glow.b{width:42vmax;height:42vmax;right:-14vmax;bottom:-16vmax;background:radial-gradient(circle,rgba(124,107,255,.45),transparent 65%);animation-delay:-6s}
+@keyframes float{to{transform:translate(4vmax,3vmax) scale(1.08)}}
+.grid{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.45;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:56px 56px;-webkit-mask-image:radial-gradient(ellipse 70% 55% at 50% 30%,#000 20%,transparent 75%);mask-image:radial-gradient(ellipse 70% 55% at 50% 30%,#000 20%,transparent 75%)}
+main{position:relative;z-index:2;max-width:1000px;margin:0 auto;padding:max(38px,env(safe-area-inset-top)) 20px 40px;text-align:center}
+.rise{opacity:0;transform:translateY(16px);animation:rise .7s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes rise{to{opacity:1;transform:none}}
+.logo{position:relative;width:104px;height:104px;border-radius:32px;background:linear-gradient(145deg,#141a23,#0a0d12);border:1px solid rgba(255,255,255,.14);display:inline-grid;place-items:center;box-shadow:0 22px 60px rgba(0,0,0,.6),0 0 70px rgba(46,230,166,.22),inset 0 1px 0 rgba(255,255,255,.12);margin-bottom:22px}
+.logo::after{content:"";position:absolute;inset:-7px;border-radius:38px;border:1px solid rgba(46,230,166,.25);animation:ring 3s ease-out infinite}
+@keyframes ring{from{opacity:.9;transform:scale(.96)}to{opacity:0;transform:scale(1.18)}}
+.logo svg{width:62%;height:62%}
+h1{font-size:clamp(36px,8vw,66px);line-height:1.04;font-weight:800;letter-spacing:-.045em;margin-bottom:14px}
+h1 span{background:linear-gradient(100deg,var(--acc) 10%,#9be9ff 50%,var(--acc2) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{max-width:580px;margin:0 auto;color:var(--mute);font-size:clamp(15px,2.3vw,18px)}
+.chips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:20px}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:7px 13px;border-radius:99px;background:var(--glass);border:1px solid var(--line);font-size:13px;font-weight:600;color:#c9d1de}
+.chip svg{width:15px;height:15px;stroke:var(--acc);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+
+.webCta{margin:32px auto 6px;display:flex;flex-direction:column;align-items:center;gap:10px}
+.bigBtn{position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:64px;padding:0 36px;border-radius:22px;text-decoration:none;font:800 18px var(--font);color:#04231a;background:linear-gradient(135deg,var(--acc),#19c98c);box-shadow:0 16px 44px rgba(46,230,166,.36),inset 0 1px 0 rgba(255,255,255,.4);transition:transform .15s,box-shadow .2s}
+.bigBtn::before{content:"";position:absolute;top:0;left:-70%;width:45%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.5),transparent);transform:skewX(-20deg);animation:shine 3.6s ease-in-out infinite}
+@keyframes shine{0%,55%{left:-70%}100%{left:130%}}
+.bigBtn:hover{box-shadow:0 20px 56px rgba(46,230,166,.52);transform:translateY(-2px)}
+.bigBtn:active{transform:scale(.98)}
+.bigBtn svg{width:24px;height:24px}
+.hint{font-size:13px;color:var(--mute)}.hint b{color:var(--acc);font-weight:700}
+
+.div{display:flex;align-items:center;gap:14px;margin:40px auto 24px;max-width:520px;color:var(--mute);font-size:12.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.div::before,.div::after{content:"";height:1px;background:var(--line);flex:1}
+
+.plats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;max-width:780px;margin:0 auto}
+@media (min-width:640px){.plats{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.plat{--c:#2ee6a6;--c2:#19c98c;position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;padding:16px 10px 12px;border-radius:20px;background:linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.02));border:1px solid var(--line);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);text-align:center;overflow:hidden;transition:transform .25s,border-color .25s,box-shadow .25s}
+.plat::before{content:"";position:absolute;left:50%;top:-34px;width:130px;height:100px;transform:translateX(-50%);background:radial-gradient(closest-side,var(--c),transparent);opacity:.18;transition:opacity .25s;pointer-events:none}
+.plat:hover{transform:translateY(-5px);border-color:color-mix(in srgb,var(--c) 55%,transparent);box-shadow:0 22px 50px rgba(0,0,0,.45),0 0 40px color-mix(in srgb,var(--c) 18%,transparent)}
+.plat:hover::before{opacity:.4}
+.plat.me{border-color:var(--c);box-shadow:0 0 0 1px var(--c),0 20px 56px color-mix(in srgb,var(--c) 22%,transparent)}
+.plat.android{--c:#3ddc84;--c2:#1fa862}.plat.ios{--c:#b9c4ff;--c2:#7c6bff}.plat.win{--c:#4cc2ff;--c2:#1b7fe0}.plat.linux{--c:#ffd166;--c2:#f59e0b}
+.tag{position:absolute;top:8px;right:8px;background:var(--c);color:#06120d;font-size:9px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:2px 7px;border-radius:99px}
+.pi{width:56px;height:56px;display:grid;place-items:center;margin-bottom:4px;transition:transform .3s}
+.plat:hover .pi{transform:scale(1.1) rotate(-3deg)}
+.pi svg{width:50px;height:50px;filter:drop-shadow(0 6px 12px color-mix(in srgb,var(--c) 38%,transparent))}
+.plat h3{font-size:16px;font-weight:800;letter-spacing:-.02em}
+.fmt{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.06em;color:var(--c);background:color-mix(in srgb,var(--c) 12%,transparent);border:1px solid color-mix(in srgb,var(--c) 30%,transparent);padding:2px 9px;border-radius:99px}
+.plat p{font-size:11.5px;color:var(--mute);line-height:1.35;margin-top:2px}
+.dl{margin-top:8px;width:100%;appearance:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;height:38px;border-radius:12px;font:700 13.5px var(--font);color:var(--ink);background:rgba(255,255,255,.08);border:1px solid var(--line);transition:background .15s,transform .12s,box-shadow .2s}
+.dl:hover{background:rgba(255,255,255,.15)}
+.dl:active{transform:scale(.97)}
+.plat.me .dl{background:linear-gradient(135deg,var(--c),var(--c2));color:#05120d;border-color:transparent;box-shadow:0 8px 22px color-mix(in srgb,var(--c2) 40%,transparent)}
+.dl svg{width:15px;height:15px}
+.alt{margin-top:6px;appearance:none;background:none;border:0;cursor:pointer;color:var(--mute);font:600 11px var(--font);text-decoration:underline;text-underline-offset:3px}
+.alt:hover{color:var(--ink)}
+
+.how{margin:34px auto 0;max-width:660px;text-align:left;background:var(--glass);border:1px solid var(--line);border-radius:22px;padding:6px 20px}
+.how details{border-bottom:1px solid var(--line);padding:15px 0}
+.how details:last-child{border-bottom:0}
+.how summary{cursor:pointer;font-weight:700;font-size:15px;list-style:none;display:flex;align-items:center;gap:10px}
+.how summary::-webkit-details-marker{display:none}
+.how summary svg{width:22px;height:22px;flex:none}
+.how summary::after{content:"+";margin-left:auto;font-size:20px;color:var(--acc);font-weight:600}
+.how details[open] summary::after{content:"–"}
+.how ol{margin:12px 0 2px 28px;color:#c4cbd8;font-size:14px}
+.how li{margin:6px 0}
+.how a{color:var(--acc)}
+
+.social{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:36px}
+.soc{display:inline-flex;align-items:center;gap:9px;padding:10px 18px;border-radius:99px;background:var(--glass);border:1px solid var(--line);color:var(--ink);text-decoration:none;font-weight:700;font-size:13.5px;transition:background .15s,transform .15s}
+.soc:hover{background:rgba(255,255,255,.1);transform:translateY(-2px)}
+.soc svg{width:18px;height:18px}
+.soc.d svg{fill:#8c9eff}.soc.y svg{fill:#ff4d4d}.soc.t svg{fill:#fff}
+footer{margin-top:28px;color:#5f6879;font-size:12.5px}
+.toast{position:fixed;left:50%;bottom:calc(26px + env(safe-area-inset-bottom));transform:translate(-50%,20px);background:#151a22;border:1px solid var(--line);padding:11px 18px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;pointer-events:none;transition:.3s;z-index:9;max-width:90vw}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rise{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="glow a"></div><div class="glow b"></div><div class="grid"></div>
+
+<main>
+  <div class="logo rise">
+    <svg viewBox="0 0 64 64" fill="none" stroke="url(#lg)" stroke-width="5" stroke-linecap="round" role="img" aria-label="MotionCut"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2ee6a6"/><stop offset="1" stop-color="#7c6bff"/></linearGradient></defs><path d="M12 36a20 20 0 0 1 32-16"/><path d="M52 28a20 20 0 0 1-32 16"/><circle cx="32" cy="32" r="4" fill="#2ee6a6" stroke="none"/></svg>
+  </div>
+  <h1 class="rise" style="animation-delay:.08s">Tải <span>MotionCut</span></h1>
+  <p class="sub rise" style="animation-delay:.14s">Dựng video &amp; chuyển động chuyên nghiệp. Dùng ngay trên trình duyệt hoặc cài về thiết bị của bạn.</p>
+  <div class="chips rise" style="animation-delay:.2s">
+    <span class="chip"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>Nhanh &amp; mượt</span>
+    <span class="chip"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>Đa nền tảng</span>
+    <span class="chip"><svg viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.400 8 8 9 4.600-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg>Miễn phí</span>
+  </div>
+
+  <div class="webCta rise" style="animation-delay:.26s">
+    <a class="bigBtn" id="webBtn" href="https://motioncut.io.vn" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>
+      Dùng ngay trên web
+    </a>
+    <span class="hint">Không cần cài đặt — mở <b>motioncut.io.vn</b> là dùng được</span>
+  </div>
+
+  <div class="div">hoặc tải về</div>
+
+  <div class="plats" id="plats">
+    <div class="plat android rise" style="animation-delay:.3s" data-os="android"><span class="tag" hidden>Dành cho bạn</span>
+      <div class="pi"><svg viewBox="0 0 24 24"><path fill="#3DDC84" d="M6 18c0 .55.45 1 1 1h1v3.500c0 .83.67 1.500 1.500 1.500s1.500-.67 1.500-1.500V19h2v3.500c0 .83.67 1.500 1.500 1.500s1.500-.67 1.500-1.500V19h1c.55 0 1-.45 1-1V8H6v10zM3.500 8C2.670 8 2 8.670 2 9.500v7c0 .83.67 1.500 1.500 1.500S5 17.330 5 16.500v-7C5 8.670 4.330 8 3.500 8zm17 0c-.83 0-1.500.67-1.500 1.500v7c0 .83.67 1.500 1.500 1.500s1.500-.67 1.500-1.500v-7c0-.83-.67-1.500-1.500-1.500zm-4.970-5.840 1.300-1.300c.2-.2.2-.51 0-.71-.2-.2-.51-.2-.71 0l-1.480 1.480A5.840 5.840 0 0 0 12 1c-.96 0-1.860.23-2.660.63L7.850.15c-.2-.2-.51-.2-.71 0-.2.2-.2.51 0 .71l1.310 1.310A5.983 5.983 0 0 0 6 7h12c0-1.990-.97-3.750-2.470-4.840zM10 5H9V4h1v1zm5 0h-1V4h1v1z"/></svg></div>
+      <h3>Android</h3><span class="fmt">.APK</span><p>Cài trực tiếp</p>
+      <button class="dl" type="button" data-act="android"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-4.500-4.500M12 15l4.500-4.500M4 20h16"/></svg>Tải xuống</button>
+    </div>
+    <div class="plat ios rise" style="animation-delay:.36s" data-os="ios"><span class="tag" hidden>Dành cho bạn</span>
+      <div class="pi"><svg viewBox="0 0 24 24"><path fill="#fff" d="M16.400 12.700c0-2.400 2-3.500 2.100-3.600-1.100-1.700-2.900-1.900-3.500-1.900-1.500-.2-2.900.9-3.700.9-.8 0-1.900-.9-3.200-.8-1.600 0-3.100 1-4 2.400-1.700 2.900-.4 7.300 1.200 9.700.8 1.200 1.800 2.500 3 2.400 1.200 0 1.700-.8 3.100-.8 1.500 0 1.900.8 3.200.8 1.300 0 2.200-1.200 3-2.400.9-1.300 1.300-2.700 1.300-2.700s-2.500-1-2.500-3zM14 5.500c.7-.8 1.100-1.900 1-3-1 0-2.100.6-2.800 1.400-.6.700-1.200 1.800-1 2.900 1.100.1 2.100-.5 2.800-1.300z"/></svg></div>
+      <h3>iOS</h3><span class="fmt">.IPA</span><p>iPhone &amp; iPad</p>
+      <button class="dl" type="button" data-act="ios"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-4.500-4.500M12 15l4.500-4.500M4 20h16"/></svg>Tải xuống</button>
+      <button class="alt" type="button" id="iosAlt">Hoặc thêm vào Màn hình chính</button>
+    </div>
+    <div class="plat win rise" style="animation-delay:.42s" data-os="windows"><span class="tag" hidden>Dành cho bạn</span>
+      <div class="pi"><svg viewBox="0 0 24 24"><defs><linearGradient id="wg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4fd1ff"/><stop offset="1" stop-color="#0a7cf0"/></linearGradient></defs><path fill="url(#wg)" d="M2.500 3.500 10.800 2.300v8.200H2.500zM12 2.100 21.500.8v9.700H12zM2.500 11.700h8.300v8.100l-8.300-1.200zM12 11.700h9.500v11.500L12 21.800z"/></svg></div>
+      <h3>Windows</h3><span class="fmt">.EXE</span><p>Windows 10 / 11</p>
+      <button class="dl" type="button" data-act="windows"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-4.500-4.500M12 15l4.500-4.500M4 20h16"/></svg>Tải xuống</button>
+    </div>
+    <div class="plat linux rise" style="animation-delay:.48s" data-os="linux"><span class="tag" hidden>Dành cho bạn</span>
+      <div class="pi"><svg viewBox="0 0 64 64"><ellipse cx="14" cy="40" rx="5" ry="13" fill="#1b1b1f" transform="rotate(14 14 40)"/><ellipse cx="50" cy="40" rx="5" ry="13" fill="#1b1b1f" transform="rotate(-14 50 40)"/><path fill="#1b1b1f" d="M32 3c-8 0-12 6-12 15 0 4-4 8-7 15-3 8-1 17 5 22h28c6-5 8-14 5-22-3-7-7-11-7-15C44 9 40 3 32 3z"/><path fill="#fff" d="M32 22c-7 0-12 8-12 18 0 8 4 15 12 15s12-7 12-15c0-10-5-18-12-18z"/><ellipse cx="26.500" cy="14" rx="3.600" ry="4.400" fill="#fff"/><ellipse cx="37.500" cy="14" rx="3.600" ry="4.400" fill="#fff"/><circle cx="27.500" cy="14.500" r="1.800" fill="#111"/><circle cx="36.500" cy="14.500" r="1.800" fill="#111"/><path fill="#f6b92b" d="M32 17.500c-4.500 0-8 2.500-8 5 0 2 3.500 4 8 4s8-2 8-4c0-2.500-3.500-5-8-5z"/><ellipse cx="21" cy="58" rx="10" ry="4.200" fill="#f6b92b"/><ellipse cx="43" cy="58" rx="10" ry="4.200" fill="#f6b92b"/></svg></div>
+      <h3>Linux</h3><span class="fmt">APPIMAGE</span><p>Ubuntu, Fedora…</p>
+      <button class="dl" type="button" data-act="linux"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-4.500-4.500M12 15l4.500-4.500M4 20h16"/></svg>Tải xuống</button>
+    </div>
+  </div>
+
+  <div class="how rise" style="animation-delay:.54s">
+    <details id="howIos"><summary><svg viewBox="0 0 24 24"><path fill="#fff" d="M16.400 12.700c0-2.400 2-3.500 2.100-3.600-1.100-1.700-2.900-1.900-3.500-1.900-1.500-.2-2.900.9-3.700.9-.8 0-1.900-.9-3.200-.8-1.600 0-3.100 1-4 2.400-1.700 2.900-.4 7.300 1.200 9.700.8 1.200 1.800 2.500 3 2.400 1.200 0 1.700-.8 3.100-.8 1.500 0 1.900.8 3.200.8 1.300 0 2.200-1.200 3-2.400.9-1.300 1.300-2.700 1.300-2.700s-2.500-1-2.500-3zM14 5.500c.7-.8 1.100-1.900 1-3-1 0-2.100.6-2.800 1.400-.6.700-1.200 1.800-1 2.900 1.100.1 2.100-.5 2.800-1.300z"/></svg>Cách cài trên iPhone / iPad</summary><ol><li>Tải tệp <b>MotionCut.ipa</b> về máy.</li><li>Mở <b>AltStore</b>, <b>Sideloadly</b> hoặc <b>TrollStore</b> rồi chọn tệp .ipa để cài.</li><li>Không muốn dùng IPA? Mở <b>motioncut.io.vn</b> bằng <b>Safari</b> → <b>Chia sẻ</b> → <b>Thêm vào Màn hình chính</b>.</li></ol></details>
+    <details id="howAndroid"><summary><svg viewBox="0 0 24 24"><path fill="#3DDC84" d="M6 18c0 .55.45 1 1 1h1v3.500c0 .83.67 1.500 1.500 1.500s1.500-.67 1.500-1.500V19h2v3.500c0 .83.67 1.500 1.500 1.500s1.500-.67 1.500-1.500V19h1c.55 0 1-.45 1-1V8H6v10zM3.500 8C2.670 8 2 8.670 2 9.500v7c0 .83.67 1.500 1.500 1.500S5 17.330 5 16.500v-7C5 8.670 4.330 8 3.500 8zm17 0c-.83 0-1.500.67-1.500 1.500v7c0 .83.67 1.500 1.500 1.500s1.500-.67 1.500-1.500v-7c0-.83-.67-1.500-1.500-1.500zm-4.970-5.840 1.300-1.300c.2-.2.2-.51 0-.71-.2-.2-.51-.2-.71 0l-1.480 1.480A5.840 5.840 0 0 0 12 1c-.96 0-1.860.23-2.660.63L7.850.15c-.2-.2-.51-.2-.71 0-.2.2-.2.51 0 .71l1.310 1.310A5.983 5.983 0 0 0 6 7h12c0-1.990-.97-3.750-2.470-4.840zM10 5H9V4h1v1zm5 0h-1V4h1v1z"/></svg>Cách cài trên Android</summary><ol><li>Tải tệp <b>.apk</b> về máy rồi mở tệp.</li><li>Khi hệ thống hỏi, cho phép <b>cài từ nguồn không xác định</b>.</li><li>Hoặc mở <b>motioncut.io.vn</b> bằng <b>Chrome</b> → <b>⋮</b> → <b>Cài đặt ứng dụng</b>.</li></ol></details>
+    <details id="howDesk"><summary><svg viewBox="0 0 24 24"><defs><linearGradient id="wg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4fd1ff"/><stop offset="1" stop-color="#0a7cf0"/></linearGradient></defs><path fill="url(#wg2)" d="M2.500 3.500 10.800 2.300v8.200H2.500zM12 2.100 21.500.8v9.700H12zM2.500 11.700h8.300v8.100l-8.300-1.200zM12 11.700h9.500v11.500L12 21.800z"/></svg>Cách cài trên Windows / Linux / macOS</summary><ol><li>Windows: tải tệp <b>.exe</b> và chạy để cài. Nếu Windows SmartScreen báo, chọn <b>Thông tin thêm → Vẫn chạy</b>.</li><li>Hoặc mở <b>motioncut.io.vn</b> bằng <b>Chrome</b>/<b>Edge</b> và bấm biểu tượng <b>Cài đặt</b> ở thanh địa chỉ.</li></ol></details>
+  </div>
+
+  <div class="social rise" style="animation-delay:.6s">
+    <a class="soc d" href="https://discord.gg/JdbGwdRDJK" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M20.300 4.400A17 17 0 0 0 16.100 3l-.5 1a15.800 15.800 0 0 0-4.800 0l-.5-1a17 17 0 0 0-4.200 1.400C3.400 8.400 2.700 12.300 3 16.100a17 17 0 0 0 5.200 2.600l1.100-1.800c-.6-.2-1.200-.5-1.700-.9l.4-.3a12 12 0 0 0 10.200 0l.4.300c-.5.400-1.100.7-1.700.9l1.100 1.800a17 17 0 0 0 5.200-2.600c.4-4.400-.8-8.300-2.900-11.700zM9.500 13.800c-1 0-1.800-.9-1.800-2s.8-2 1.800-2 1.800.9 1.800 2-.8 2-1.800 2zm5 0c-1 0-1.800-.9-1.800-2s.8-2 1.800-2 1.800.9 1.800 2-.8 2-1.800 2z"/></svg>Discord</a>
+    <a class="soc y" href="https://youtube.com/@gangocvietsub" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M21.600 7.200a2.500 2.500 0 0 0-1.800-1.800C18.200 5 12 5 12 5s-6.200 0-7.800.4A2.500 2.500 0 0 0 2.400 7.200C2 8.800 2 12 2 12s0 3.200.4 4.800a2.500 2.500 0 0 0 1.800 1.800C5.800 19 12 19 12 19s6.200 0 7.800-.4a2.500 2.500 0 0 0 1.800-1.800c.4-1.600.4-4.800.4-4.800s0-3.200-.4-4.800zM10 15V9l5.200 3z"/></svg>YouTube</a>
+    <a class="soc t" href="https://www.tiktok.com/@gangocvietsub" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M16.600 3c.3 2.400 1.700 3.900 4 4v3.100c-1.400.1-2.700-.3-4-1.100v5.600c0 7.100-7.700 9.300-10.800 4.200-2-3.300-.8-9 5.500-9.200v3.300c-.5.100-1 .2-1.500.5-1.400.8-1.300 2.300-.9 3.100.9 1.500 3.600 1.800 3.300-1.200V3z"/></svg>TikTok</a>
+  </div>
+  <footer>© <span id="yr"></span> MotionCut · Làm tại Việt Nam</footer>
+</main>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ====== CẤU HÌNH — sửa link ở đây ====== */
+var CONFIG={
+  web:'https://motioncut.io.vn',
+  android:'https://raw.githubusercontent.com/namdexVND/VNDhubKEY/main/motioncut.apk',
+  ios:'https://raw.githubusercontent.com/namdexVND/VNDhubKEY/main/MotionCut.ipa',
+  windows:'https://drive.google.com/uc?export=download&id=1Trbl1DJc0smiN1zXpTRw-KxQFH2RSY0A',
+  linux:''   // ví dụ: 'https://.../MotionCut.AppImage'
+};
+/* ===================================== */
+(function(){
+  var $=function(s,r){return (r||document).querySelector(s)};
+  $('#webBtn').href=CONFIG.web; $('#yr').textContent=new Date().getFullYear();
+  var tt; function toast(m){var t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){t.classList.remove('show')},2800)}
+  function openHow(id){var d=$(id);d.open=true;d.scrollIntoView({behavior:'smooth',block:'center'})}
+
+  var ua=navigator.userAgent||'', p=navigator.platform||'', os='other';
+  if(/android/i.test(ua)) os='android';
+  else if(/iPhone|iPad|iPod/i.test(ua)||(p==='MacIntel'&&navigator.maxTouchPoints>1)) os='ios';
+  else if(/Win/i.test(p)||/Windows/i.test(ua)) os='windows';
+  else if(/Linux|X11/i.test(p+ua)) os='linux';
+  var me=$('.plat[data-os="'+os+'"]'); if(me){ me.classList.add('me'); $('.tag',me).hidden=false; $('#plats').prepend(me) }
+  var map={android:'#howAndroid',ios:'#howIos',windows:'#howDesk',linux:'#howDesk'};
+  if(map[os]) $(map[os]).open=true;
+
+  var deferred=null;
+  window.addEventListener('beforeinstallprompt',function(e){ e.preventDefault(); deferred=e });
+  window.addEventListener('appinstalled',function(){ toast('Đã cài MotionCut'); deferred=null });
+  function pwa(){ if(deferred){ deferred.prompt(); deferred.userChoice.finally(function(){ deferred=null }); return true } return false }
+
+  $('#iosAlt').addEventListener('click',function(){ openHow('#howIos'); toast('Safari: Chia sẻ → Thêm vào Màn hình chính') });
+
+  document.querySelectorAll('.dl').forEach(function(b){
+    b.addEventListener('click',function(){
+      var k=b.dataset.act, url=CONFIG[k];
+      if(url){
+        var a=document.createElement('a'); a.href=url; a.download=''; a.rel='noopener'; document.body.appendChild(a); a.click(); a.remove();
+        toast('Đang tải xuống…');
+        if(k==='ios') setTimeout(function(){openHow('#howIos')},900);
+        return;
+      }
+      if(pwa()) return;
+      openHow(k==='android'?'#howAndroid':'#howDesk');
+      toast('Chưa có bộ cài riêng. Hãy cài từ trình duyệt theo hướng dẫn bên dưới.');
+    });
+  });
+})();
+</script>
+</body>
+</html>
