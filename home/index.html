@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MotionCut — Dựng video &amp; chuyển động chuyên nghiệp</title>
+<meta name="description" content="MotionCut: keyframe, 3D, hiệu ứng, mặt nạ, xuất 60 FPS. Miễn phí trên web, Android, iOS, Windows, Linux.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' fill='none' stroke='%232ee6a6' stroke-width='5' stroke-linecap='round'%3E%3Crect width='64' height='64' rx='16' fill='%230d1117' stroke='none'/%3E%3Cpath d='M14 36a18 18 0 0 1 29-14'/%3E%3Cpath d='M50 28a18 18 0 0 1-29 14'/%3E%3Ccircle cx='32' cy='32' r='3.5' fill='%232ee6a6' stroke='none'/%3E%3C/svg%3E">
+<style>
+:root{--bg:#f4f6fa;--surface:#fff;--ink:#0a0f16;--mute:#576177;--line:rgba(10,15,22,.12);--acc:#0a9a6c;--acc-ink:#fff;--acc2:#5a49e6;--g1:rgba(46,230,166,.3);--g2:rgba(124,107,255,.24);--font:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#06080c;--surface:#0e131a;--ink:#f4f7fb;--mute:#98a2b5;--line:rgba(255,255,255,.1);--acc:#2ee6a6;--acc-ink:#04140d;--acc2:#8d7fff;--g1:rgba(46,230,166,.3);--g2:rgba(124,107,255,.32)}}
+:root[data-theme="dark"]{--bg:#06080c;--surface:#0e131a;--ink:#f4f7fb;--mute:#98a2b5;--line:rgba(255,255,255,.1);--acc:#2ee6a6;--acc-ink:#04140d;--acc2:#8d7fff;--g1:rgba(46,230,166,.3);--g2:rgba(124,107,255,.32)}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:inherit;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1.6;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(44vmax 44vmax at 6% -8%,var(--g1),transparent 70%),radial-gradient(40vmax 40vmax at 100% 60%,var(--g2),transparent 70%),linear-gradient(var(--line) 1px,transparent 1px) 0 0/64px 64px,linear-gradient(90deg,var(--line) 1px,transparent 1px) 0 0/64px 64px;-webkit-mask-image:linear-gradient(#000 40%,transparent 95%);mask-image:linear-gradient(#000 40%,transparent 95%);opacity:.8}
+.wrap{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:0 20px}
+a{color:inherit}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:color-mix(in srgb,var(--bg) 70%,transparent);border-bottom:1px solid var(--line)}
+body::after{content:"";position:fixed;top:0;left:0;right:0;height:env(safe-area-inset-top,0px);z-index:19;background:color-mix(in srgb,var(--bg) 70%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+nav{display:flex;align-items:center;justify-content:space-between;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.03em;font-size:19px;text-decoration:none}
+.brand svg{width:32px;height:32px}
+.links{display:flex;align-items:center;gap:22px;font-size:15px;color:var(--mute)}
+.links a{text-decoration:none}.links a:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 22px;border-radius:14px;font:600 15px var(--font);text-decoration:none;border:1px solid var(--line);color:var(--ink);background:var(--surface);transition:transform .15s,box-shadow .2s}
+.btn:hover{transform:translateY(-1px)}
+.btn.pri{background:var(--acc);color:var(--acc-ink);border-color:transparent;box-shadow:0 8px 30px -8px var(--acc)}
+.btn.sm{min-height:38px;padding:0 16px;font-size:14px}
+.btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:36px;align-items:center;padding:56px 0 40px}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border:1px solid var(--line);background:var(--surface);border-radius:999px;font-size:13px;color:var(--mute);margin-bottom:20px}
+.pill i{width:7px;height:7px;border-radius:50%;background:var(--acc);box-shadow:0 0 0 4px color-mix(in srgb,var(--acc) 25%,transparent)}
+h1{font-size:clamp(42px,8.6vw,78px);line-height:1;letter-spacing:-.055em;font-weight:800}
+h1 em{font-style:normal;background:linear-gradient(100deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--mute);font-size:clamp(16px,2.3vw,19px);max-width:30em;margin-top:18px}
+.cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+.trust{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:22px;font-size:14px;color:var(--mute)}
+.trust b{color:var(--ink)}
+/* phone */
+.stage{display:flex;justify-content:center;perspective:1000px}
+.phone{width:min(290px,100%);aspect-ratio:9/18.5;border-radius:38px;padding:10px;background:linear-gradient(160deg,#242b36,#0b0e13);box-shadow:0 40px 80px -20px rgba(0,0,0,.55),0 0 90px -10px var(--g1);transform:rotateY(-10deg) rotateX(4deg);animation:fl 6s ease-in-out infinite alternate}
+@keyframes fl{to{transform:rotateY(-4deg) rotateX(2deg) translateY(-8px)}}
+.scr{height:100%;border-radius:29px;background:#080b10;overflow:hidden;display:flex;flex-direction:column;color:#f4f7fb}
+.prev{flex:1;position:relative;display:grid;place-items:center;background:radial-gradient(circle at 50% 45%,#16202c,#080b10 70%)}
+.cube{width:96px;height:96px;position:relative;transform-style:preserve-3d;animation:rot 9s linear infinite}
+.cube i{position:absolute;inset:0;border-radius:18px;border:2px solid #2ee6a6;background:rgba(46,230,166,.08)}
+.cube i:nth-child(2){transform:rotateY(60deg);border-color:#8d7fff;background:rgba(141,127,255,.08)}
+.cube i:nth-child(3){transform:rotateY(120deg);border-color:#9be9ff;background:rgba(155,233,255,.06)}
+@keyframes rot{to{transform:rotateX(360deg) rotateY(360deg)}}
+.fps{position:absolute;top:12px;right:12px;font-size:11px;font-weight:700;padding:3px 8px;border-radius:99px;background:rgba(255,255,255,.1)}
+.tools{display:flex;justify-content:space-around;padding:10px 6px;border-top:1px solid rgba(255,255,255,.08)}
+.tools span{width:30px;height:30px;border-radius:9px;background:rgba(255,255,255,.07)}
+.tools span:first-child{background:#2ee6a6}
+.mini{position:relative;padding:8px 12px 18px;border-top:1px solid rgba(255,255,255,.08)}
+.mini div{height:14px;border-radius:5px;margin-top:6px;position:relative}
+.mini div::after{content:"";position:absolute;top:50%;width:7px;height:7px;background:#fff;transform:translate(-50%,-50%) rotate(45deg);left:30%;box-shadow:42px 0 #fff,90px 0 #fff}
+.mini .a{background:linear-gradient(90deg,#2ee6a6,#6fd8c4);width:70%}
+.mini .b{background:linear-gradient(90deg,#8d7fff,#a89cff);width:86%;margin-left:12%}
+.mini .c{background:linear-gradient(90deg,#2ee6a6,#8d7fff);width:50%;margin-left:30%}
+.mini u{position:absolute;top:4px;bottom:6px;width:2px;background:#fff;left:20%;animation:sc 5s ease-in-out infinite alternate}
+@keyframes sc{to{left:88%}}
+/* sections */
+section{padding:60px 0;position:relative;z-index:1}
+h2{font-size:clamp(30px,5.6vw,46px);letter-spacing:-.045em;line-height:1.08;max-width:16em}
+.sl{color:var(--mute);max-width:36em;margin:12px 0 30px}
+.bento{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:24px;grid-column:span 2;position:relative;overflow:hidden}
+.card.w{grid-column:span 3}
+.card h3{font-size:19px;letter-spacing:-.025em;margin-bottom:6px}
+.card p{color:var(--mute);font-size:15px}
+.ic{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:color-mix(in srgb,var(--acc) 14%,transparent);margin-bottom:16px}
+.ic svg{width:22px;height:22px;stroke:var(--acc);fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.curve{margin-top:16px;width:100%;height:70px}
+.curve path{stroke:var(--acc);stroke-width:3;fill:none;stroke-linecap:round}
+.curve circle{fill:var(--ink)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:6px}
+.stats div{border-left:2px solid var(--acc);padding:2px 0 2px 16px}
+.stats b{display:block;font-size:34px;letter-spacing:-.04em;line-height:1.1}
+.stats span{color:var(--mute);font-size:14px}
+.dl{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
+.os{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:22px;text-decoration:none;display:flex;flex-direction:column;gap:4px;transition:transform .2s,border-color .2s}
+.os:hover{transform:translateY(-4px);border-color:var(--acc)}
+.os svg{width:30px;height:30px;stroke:var(--acc);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;margin-bottom:10px}
+.os b{font-size:18px;letter-spacing:-.02em}
+.os span{color:var(--mute);font-size:14px}
+.os.web{background:linear-gradient(150deg,var(--acc),color-mix(in srgb,var(--acc) 40%,var(--acc2)));color:var(--acc-ink);border-color:transparent}
+.os.web svg{stroke:var(--acc-ink)}.os.web span{color:inherit;opacity:.8}
+details{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:0 20px;margin-bottom:10px}
+summary{cursor:pointer;list-style:none;padding:17px 0;font-weight:600;display:flex;justify-content:space-between;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--acc);font-size:22px;line-height:1;transition:transform .2s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{color:var(--mute);padding-bottom:18px;font-size:15px}
+.final{text-align:center;border:1px solid var(--line);border-radius:30px;padding:56px 22px;background:linear-gradient(160deg,color-mix(in srgb,var(--acc) 14%,var(--surface)),var(--surface) 60%);position:relative;z-index:1}
+.final h2,.final .sl{margin-left:auto;margin-right:auto}
+.final .cta{justify-content:center}
+footer{position:relative;z-index:1;padding:30px 0 40px;text-align:center;color:var(--mute);font-size:14px}
+footer a{margin:0 10px}
+h1{font-size:clamp(44px,9.4vw,88px)}
+h1 em{background:linear-gradient(100deg,var(--acc),var(--acc2),var(--acc)) 0 0/200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sh 5s linear infinite}
+@keyframes sh{to{background-position:200% 0}}
+@keyframes up{from{opacity:0;transform:translateY(20px)}}
+.hero>div:first-child>*{animation:up .8s cubic-bezier(.2,.8,.2,1) both}
+.hero>div:first-child>:nth-child(2){animation-delay:.08s}.hero>div:first-child>:nth-child(3){animation-delay:.16s}.hero>div:first-child>:nth-child(4){animation-delay:.24s}.hero>div:first-child>:nth-child(5){animation-delay:.32s}
+.stage{position:relative;min-height:540px;align-items:center}
+.stage::before{content:"";position:absolute;left:50%;top:50%;width:min(440px,95%);aspect-ratio:1;border-radius:50%;background:conic-gradient(from 0deg,var(--acc),var(--acc2),var(--acc));filter:blur(72px);opacity:.5;transform:translate(-50%,-50%);animation:spin 14s linear infinite}
+@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+.phone{width:min(310px,100%);position:relative;z-index:1}
+.chip{position:absolute;z-index:2;padding:10px 16px;border-radius:14px;background:color-mix(in srgb,var(--surface) 62%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--line);font-size:13px;font-weight:700;box-shadow:0 16px 44px -14px rgba(0,0,0,.5);animation:bob 5s ease-in-out infinite alternate}
+.chip b{color:var(--acc)}
+@keyframes bob{to{transform:translateY(-12px)}}
+.card::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(135deg,color-mix(in srgb,var(--acc) 60%,transparent),transparent 42%,color-mix(in srgb,var(--acc2) 50%,transparent));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.card{transition:transform .25s,box-shadow .25s}.card:hover{transform:translateY(-4px);box-shadow:0 24px 60px -24px var(--acc)}
+.mq{overflow:hidden;border-block:1px solid var(--line);padding:18px 0;position:relative;z-index:1;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.mq div{display:flex;width:max-content;animation:mq 32s linear infinite}
+.mq span{font-size:clamp(22px,3.4vw,32px);font-weight:800;letter-spacing:-.04em;color:var(--mute);white-space:nowrap}
+.mq span::after{content:"✦";margin:0 30px;color:var(--acc);font-weight:400}
+@keyframes mq{to{transform:translateX(-50%)}}
+.final{overflow:hidden}
+.final::before{content:"";position:absolute;left:50%;top:-260px;width:520px;height:520px;margin-left:-260px;background:radial-gradient(circle,var(--g1),transparent 65%);pointer-events:none}
+.final>*{position:relative}
+.final h2{font-size:clamp(32px,6.4vw,56px)}
+.os{position:relative;overflow:hidden}
+.os:not(.web)::after{content:"→";position:absolute;top:18px;right:20px;color:var(--acc);opacity:0;transform:translateX(-6px);transition:.2s}
+.os:hover::after{opacity:1;transform:none}
+.demo{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.sc{background:var(--surface);border:1px solid var(--line);border-radius:22px;height:240px;position:relative;overflow:hidden}
+.sc.wd{grid-column:1/-1;height:170px}
+.sc small{position:absolute;left:18px;bottom:12px;font-size:13px;font-weight:600;color:var(--mute);z-index:2}
+.sc:hover *,.sc:hover::after{animation-play-state:paused}
+.ball{position:absolute;left:50%;bottom:52px;width:48px;height:48px;margin-left:-24px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));transform-origin:50% 100%;animation:bn 1.5s infinite}
+@keyframes bn{0%{transform:translateY(0) scale(1.22,.78);animation-timing-function:cubic-bezier(.2,.7,.4,1)}14%{transform:translateY(-20px) scale(.92,1.1)}50%{transform:translateY(-118px) scale(1);animation-timing-function:cubic-bezier(.6,0,.8,.3)}86%{transform:translateY(-20px) scale(.92,1.1)}100%{transform:translateY(0) scale(1.22,.78)}}
+.shd{position:absolute;left:50%;bottom:44px;width:50px;height:9px;margin-left:-25px;border-radius:50%;background:var(--ink);opacity:.22;animation:shd 1.5s ease-in-out infinite}
+@keyframes shd{0%,100%{transform:scale(1.25);opacity:.28}50%{transform:scale(.45);opacity:.08}}
+.ezs{position:absolute;inset:0 22px 40px;display:flex;flex-direction:column;justify-content:center;gap:22px}
+.ez{position:relative;height:3px;border-radius:3px;background:var(--line)}
+.ez i{position:absolute;top:-8px;left:0;width:19px;height:19px;border-radius:50%;background:var(--acc);animation:ez 2.2s infinite alternate}
+.ez:nth-child(2) i{background:var(--acc2);animation-timing-function:ease-in-out}
+.ez:nth-child(3) i{background:var(--ink);animation-timing-function:cubic-bezier(.34,1.7,.64,1)}
+.ez:nth-child(1) i{animation-timing-function:linear}
+@keyframes ez{from{left:0}to{left:calc(100% - 19px)}}
+.mp{position:absolute;inset:0 0 20px;margin:auto;width:88px;height:88px;background:linear-gradient(135deg,var(--acc2),var(--acc));animation:mp 4.5s ease-in-out infinite}
+@keyframes mp{0%,100%{border-radius:14%;transform:rotate(0)}33%{border-radius:50%;transform:rotate(120deg) scale(.78)}66%{border-radius:50% 14% 50% 14%;transform:rotate(240deg) scale(1.12)}}
+.ob{position:absolute;left:50%;top:46%;width:0;height:0}
+.ob b{position:absolute;border:1px dashed var(--line);border-radius:50%;width:calc(var(--r)*2);height:calc(var(--r)*2);left:calc(var(--r)*-1);top:calc(var(--r)*-1)}
+.ob span{position:absolute;left:0;top:0;animation:rt var(--d) linear infinite}
+.ob span::after{content:"";position:absolute;width:var(--s);height:var(--s);border-radius:50%;background:var(--c);left:calc(var(--r) - var(--s)/2);top:calc(var(--s)/-2)}
+.ob em{position:absolute;width:24px;height:24px;left:-12px;top:-12px;border-radius:50%;background:var(--acc);box-shadow:0 0 30px var(--acc)}
+@keyframes rt{to{transform:rotate(360deg)}}
+.wvs{position:absolute;inset:0 0 28px;width:100%;height:calc(100% - 28px)}
+.wvs path{fill:none;stroke-width:3;stroke-linecap:round}
+.w1{stroke:var(--acc);animation:wv 6s linear infinite}
+.w2{stroke:var(--acc2);opacity:.8;animation:wv 9s linear infinite}
+.w3{stroke:var(--ink);opacity:.25;animation:wv 14s linear infinite}
+@keyframes wv{to{transform:translateX(-600px)}}
+@media(max-width:820px){.chip{display:none}.stage{min-height:0}.hero{grid-template-columns:1fr;padding-top:34px;text-align:center}.lead{margin-inline:auto}.cta,.trust{justify-content:center}.links a:not(.btn){display:none}.card,.card.w{grid-column:span 6}.phone{transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+<div class="top"><div class="wrap"><nav>
+  <a class="brand" href="#"><svg viewBox="0 0 64 64" fill="none" stroke-width="5" stroke-linecap="round" aria-hidden="true"><rect width="64" height="64" rx="16" fill="#0d1117"/><g stroke="#2ee6a6"><path d="M14 36a18 18 0 0 1 29-14"/><path d="M50 28a18 18 0 0 1-29 14"/></g><circle cx="32" cy="32" r="3.5" fill="#2ee6a6" stroke="none"/></svg>MotionCut</a>
+  <div class="links"><a href="#tinh-nang">Tính năng</a><a href="#tai-ve">Nền tảng</a><a href="#hoi-dap">Hỏi đáp</a><a class="btn pri sm" href="https://motioncut.io.vn/download">Tải về</a></div>
+</nav></div></div>
+
+<div class="wrap">
+  <div class="hero">
+    <div>
+      <span class="pill"><i></i>Miễn phí · Làm tại Việt Nam</span>
+      <h1>Chuyển động đẹp, <em>dựng trong tầm tay</em></h1>
+      <p class="lead">MotionCut là trình dựng video và chuyển động chuyên nghiệp cho điện thoại, máy tính và trình duyệt. Keyframe, 3D, hiệu ứng, mặt nạ, xuất 60 FPS mượt mà.</p>
+      <div class="cta">
+        <a class="btn pri" href="https://motioncut.io.vn/download"><svg viewBox="0 0 24 24"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>Tải MotionCut</a>
+        <a class="btn" href="https://motioncut.io.vn" target="_blank" rel="noopener">Dùng ngay trên web</a>
+      </div>
+      <div class="trust"><span><b>5</b> nền tảng</span><span><b>60</b> FPS</span><span><b>0đ</b> để bắt đầu</span></div>
+    </div>
+    <div class="stage" aria-hidden="true"><span class="chip" style="top:12%;left:-4%"><b>◆</b> Keyframe</span><span class="chip" style="top:46%;right:-6%;animation-delay:-2s"><b>3D</b> Xoay tự do</span><span class="chip" style="bottom:11%;left:-2%;animation-delay:-3.5s"><b>60</b> FPS</span><div class="phone"><div class="scr">
+      <div class="prev"><span class="fps">60 FPS</span><div class="cube"><i></i><i></i><i></i></div></div>
+      <div class="tools"><span></span><span></span><span></span><span></span></div>
+      <div class="mini"><div class="a"></div><div class="b"></div><div class="c"></div><u></u></div>
+    </div></div></div>
+  </div>
+
+  <div class="mq" aria-hidden="true"><div><span>Keyframe</span><span>Easing</span><span>Không gian 3D</span><span>Mặt nạ</span><span>Hiệu ứng</span><span>Xuất 60 FPS</span><span>Keyframe</span><span>Easing</span><span>Không gian 3D</span><span>Mặt nạ</span><span>Hiệu ứng</span><span>Xuất 60 FPS</span></div></div>
+
+  <section id="tinh-nang">
+    <h2>Mọi công cụ cho một cú chuyển động trọn vẹn</h2>
+    <p class="sl">Gói gọn trên một dòng thời gian, đủ sâu cho dân chuyên và đủ nhẹ để dùng ngay trên điện thoại.</p>
+    <div class="bento">
+      <div class="card w"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l7 9-7 9-7-9z"/></svg></div><h3>Keyframe &amp; easing</h3><p>Đặt điểm chuyển động, kéo đường cong gia tốc để từng cú vào ra đều có nhịp.</p>
+        <svg class="curve" viewBox="0 0 300 70" preserveAspectRatio="none" aria-hidden="true"><path d="M8 62C90 62 110 8 292 8"/><circle cx="8" cy="62" r="6"/><circle cx="292" cy="8" r="6"/></svg></div>
+      <div class="card w"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 2l9 5v10l-9 5-9-5V7z"/><path d="M12 12l9-5M12 12v10M12 12L3 7"/></svg></div><h3>Không gian 3D</h3><p>Xoay, nghiêng và đẩy lớp ra xa trong không gian ba chiều, ngay trên màn hình nhỏ.</p></div>
+      <div class="card"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="9" cy="12" r="6"/><circle cx="15" cy="12" r="6"/></svg></div><h3>Hiệu ứng &amp; mặt nạ</h3><p>Tách, che, hiện đúng phần bạn muốn.</p></div>
+      <div class="card"><div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M10 9.5v5l4-2.5z"/></svg></div><h3>Xuất 60 FPS</h3><p>Video mượt, sẵn sàng đăng lên mọi nền tảng.</p></div>
+      <div class="card"><div class="ic"><svg viewBox="0 0 24 24"><path d="M4 12h12M12 6l6 6-6 6"/></svg></div><h3>Nhập từ Alight Motion</h3><p>Mang dự án cũ sang và làm tiếp.</p></div>
+    </div>
+  </section>
+
+  <section id="hoat-anh">
+    <h2>Hoạt ảnh 2D, chuyển động có sức sống</h2>
+    <p class="sl">Vài cảnh nhỏ dựng bằng chính những nguyên tắc bạn sẽ dùng trong MotionCut. Chạm hoặc rê chuột vào từng khung để tạm dừng.</p>
+    <div class="demo" aria-hidden="true">
+      <div class="sc"><div class="shd"></div><div class="ball"></div><small>Nén &amp; kéo giãn</small></div>
+      <div class="sc"><div class="ezs"><div class="ez"><i></i></div><div class="ez"><i></i></div><div class="ez"><i></i></div></div><small>Easing: đều, mượt, nảy</small></div>
+      <div class="sc"><div class="mp"></div><small>Biến hình</small></div>
+      <div class="sc"><div class="ob"><b style="--r:38px"></b><b style="--r:70px"></b><b style="--r:100px"></b><em></em><span style="--r:38px;--s:12px;--c:var(--acc2);--d:2.4s"></span><span style="--r:70px;--s:16px;--c:var(--ink);--d:4s"></span><span style="--r:100px;--s:10px;--c:var(--acc);--d:6s"></span></div><small>Quỹ đạo</small></div>
+      <div class="sc wd"><svg class="wvs" viewBox="0 0 600 140" preserveAspectRatio="none"><path class="w3" d="M0 70q75 -50 150 0t150 0t150 0t150 0t150 0t150 0t150 0t150 0"/><path class="w2" d="M0 70q75 -64 150 0t150 0t150 0t150 0t150 0t150 0t150 0t150 0" style="transform:translateX(-90px)"/><path class="w1" d="M0 70q50 -40 100 0t100 0t100 0t100 0t100 0t100 0t100 0t100 0t100 0t100 0t100 0t100 0"/></svg><small>Sóng chuyển động</small></div>
+    </div>
+  </section>
+
+  <section id="tai-ve">
+    <h2>Chọn nơi bạn muốn dựng</h2>
+    <p class="sl">Mở trình duyệt là dùng được ngay. Muốn gọn hơn thì tải bản cài cho thiết bị của bạn.</p>
+    <div class="dl">
+      <a class="os web" href="https://motioncut.io.vn" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg><b>Web</b><span>Dùng ngay, không cài</span></a>
+      <a class="os" href="https://motioncut.io.vn/download"><svg viewBox="0 0 24 24"><path d="M7 4l1.5 3M17 4l-1.5 3M5 9a7 7 0 0 1 14 0v8a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2z"/></svg><b>Android</b><span>Tệp .APK</span></a>
+      <a class="os" href="https://motioncut.io.vn/download"><svg viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10.5 18.5h3"/></svg><b>iOS</b><span>iPhone &amp; iPad</span></a>
+      <a class="os" href="https://motioncut.io.vn/download"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg><b>Windows</b><span>Windows 10 / 11</span></a>
+      <a class="os" href="https://motioncut.io.vn/download"><svg viewBox="0 0 24 24"><path d="M5 5l5 7-5 7M13 19h6"/></svg><b>Linux</b><span>AppImage</span></a>
+    </div>
+    <div class="cta"><a class="btn pri" href="https://motioncut.io.vn/download">Mở trang tải về</a></div>
+  </section>
+
+  <section id="hoi-dap">
+    <h2>Câu hỏi thường gặp</h2>
+    <p class="sl"></p>
+    <details><summary>MotionCut có miễn phí không?</summary><p>Có, bạn có thể dùng MotionCut miễn phí để bắt đầu dựng video ngay.</p></details>
+    <details><summary>Tôi có cần cài đặt không?</summary><p>Không bắt buộc. Mở motioncut.io.vn trên trình duyệt là dùng được. Nếu thích, bạn có thể tải bản cài trên trang tải về.</p></details>
+    <details><summary>Có dùng được trên iPhone không?</summary><p>Được. Bạn có thể cài tệp .IPA hoặc mở bằng Safari rồi thêm vào Màn hình chính. Hướng dẫn chi tiết nằm ở trang tải về.</p></details>
+    <details><summary>Dự án từ Alight Motion có chuyển sang được không?</summary><p>MotionCut hỗ trợ nhập từ Alight Motion để bạn tiếp tục công việc mà không phải làm lại từ đầu.</p></details>
+  </section>
+
+  <section><div class="final">
+    <h2>Sẵn sàng làm video của riêng bạn?</h2>
+    <p class="sl">Tải MotionCut hoặc mở ngay trên web, rồi tham gia cộng đồng để học hỏi và chia sẻ.</p>
+    <div class="cta"><a class="btn pri" href="https://motioncut.io.vn/download">Tải MotionCut</a><a class="btn" href="https://discord.gg/JdbGwdRDJK" target="_blank" rel="noopener">Vào Discord</a></div>
+  </div></section>
+</div>
+
+<footer><a href="https://discord.gg/JdbGwdRDJK" target="_blank" rel="noopener">Discord</a><a href="https://youtube.com/@gangocvietsub" target="_blank" rel="noopener">YouTube</a><a href="https://www.tiktok.com/@gangocvietsub" target="_blank" rel="noopener">TikTok</a><p style="margin-top:12px">© <span id="yr"></span> MotionCut · Làm tại Việt Nam</p></footer>
+<script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
+</body>
+</html>
